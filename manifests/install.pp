@@ -3,7 +3,7 @@
 class swarm::install {
 
 
-file { [$swarm::base_dir, $swarm::base_dir/docker]:
+file { [$swarm::base_dir, "${swarm::base_dir}/docker"]:
   ensure  => directory,
   recurse => true,
   } ->
