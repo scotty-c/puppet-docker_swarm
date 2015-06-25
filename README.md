@@ -1,4 +1,4 @@
-# Swarm
+# Docker Swarm
 
 [![Build Status](https://travis-ci.org/scotty-c/puppet-golang.svg?branch=master)](https://travis-ci.org/scotty-c/puppet-golang)
 
