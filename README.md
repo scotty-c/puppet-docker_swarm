@@ -1,6 +1,6 @@
 # Docker Swarm
 
-[![Build Status](https://travis-ci.org/scotty-c/puppet-golang.svg?branch=master)](https://travis-ci.org/scotty-c/puppet-golang)
+[![Build Status](https://travis-ci.org/scotty-c/puppet-swarm.svg?branch=master)](https://travis-ci.org/scotty-c/puppet-swarm)
 
 #### Table of Contents
 
