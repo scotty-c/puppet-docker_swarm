@@ -3,7 +3,7 @@
 class swarm::install {
 
 
-file { ["${swarm::base_dir}", "${swarm::base_dir}/docker"]:
+file { [$swarm::base_dir, $swarm::base_dir/docker]:
   ensure  => directory,
   recurse => true,
   } ->
@@ -13,7 +13,7 @@ vcsrepo { $swarm::swarm_dir:
   provider => git,
   source   => 'https://github.com/docker/swarm.git',
   revision => $swarm::swarm_version,
-  require  => File["${swarm::base_dir}"]
+  require  => File[$swarm::base_dir]
   } ->
 
 exec { 'build swarm':
@@ -23,11 +23,11 @@ exec { 'build swarm':
   creates   => '/usr/local/go/bin/swarm',
   timeout   => 600 , #This is for slower machines or vagrant testing
   logoutput => on_failure,
-  }  
+  }
 
 file { 'symlink swarm':
-  path    => '/usr/bin/swarm', 
   ensure  => link,
+  path    => '/usr/bin/swarm',
   target  => '/usr/local/go/bin/swarm',
   require => Exec['build swarm']
   }
