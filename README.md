@@ -37,7 +37,7 @@ For basic usage:
 ```
 include docker_swarm
 ```
-To customise the install:
+To customize the install with a third party back end:
 ```
 class {'docker_swarm':}
 
@@ -46,8 +46,8 @@ swarm_cluster {'cluster 1':
    backend      => 'consul',
    cluster_type => 'join',
    port         => '8500',
-   address      =>  '172.17.8.101',
-   path         =>  'swarm'
+   address      => '172.17.8.101',
+   path         => 'swarm'
    } 
 ```
 The provider allows the following types
@@ -65,6 +65,33 @@ The provider allows the following types
 
 
 ````path```` this is the path for the key/value store
+
+
+To customize the install using the native swarm discovery service:
+```
+class {'docker_swarm':}
+
+swarm_cluster {'cluster 1':
+   ensure       => present,
+   backend      => 'swarm',
+   cluster_type => 'create',
+   } 
+```
+
+To manage the the cluster with a third party back end:
+```
+class {'docker_swarm':}
+
+swarm_cluster {'cluster 1':
+   ensure       => present,
+   backend      => 'consul',
+   cluster_type => 'manage',
+   port         => '8500',
+   address      => '172.17.8.101',
+   path         => 'swarm',
+   strategy     => 'spread'  
+   } 
+```
 
 
 ````strategy```` This is the scheduling strategy. The choices are spread, binpick or random. This only needs to be applied if the node is a swarm manager.
