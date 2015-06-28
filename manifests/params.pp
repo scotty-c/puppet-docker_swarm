@@ -1,4 +1,4 @@
-class swarm::params {
+class docker_swarm::params {
 
   $install_docker   = true
   $install_golang   = true

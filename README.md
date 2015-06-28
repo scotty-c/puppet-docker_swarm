@@ -64,7 +64,11 @@ The provider allows the following types
 ````address```` this is the address of the backend
 
 
-````path```` this is the path for the key/value store 
+````path```` this is the path for the key/value store
+
+
+````strategy```` This is the scheduling strategy. The choices are spread, binpick or random. This only needs to be applied if the node is a swarm manager.
+For more information about scheduling straties https://docs.docker.com/swarm/scheduler/strategy/
 
 ##Dependencies 
 

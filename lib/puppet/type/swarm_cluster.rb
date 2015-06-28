@@ -30,6 +30,12 @@ Puppet::Type.newtype(:swarm_cluster) do
       desc "Should be the port of consul, etcd, mesos or zookepper"  
     end 
 
+    newparam(:strategy) do
+      desc "The scheduling strategy for the placement of the conatiners"      
+      newvalues(:spread, :binpack, :random)
+      defaultto :spread
+    end 
+    
     newparam(:path) do
       desc "Should be the path of the consul, etcd, mesos or zookepper KV"
     end

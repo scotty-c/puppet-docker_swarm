@@ -19,6 +19,7 @@ Puppet::Type.type(:swarm_cluster).provide(:ruby) do
     address = (resource[:address])
     port = (resource[:port])  
     path = (resource[:path])
+    strategy = (resource[:strategy])
     case 
       when cluster.match(/create/)
         yield 'create'
@@ -26,7 +27,7 @@ Puppet::Type.type(:swarm_cluster).provide(:ruby) do
       when cluster.match(/join/)
         ['join', "--advertise=#{interface}:2375", "#{backend}://#{address}:#{port}/#{path}"]
       when cluster.match(/manage/)      
-        ['manage', '-H', "tcp://#{interface}:2375", "#{backend}://#{address}:#{port}/#{path}"]   
+        ['manage', '-H', "--strategy #{strategy}", "tcp://#{interface}:2375", "#{backend}://#{address}:#{port}/#{path}"]   
       end
    end
 

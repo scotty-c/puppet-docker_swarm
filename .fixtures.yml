@@ -1,6 +1,6 @@
 fixtures:
     symlinks:
-        swarm: "#{source_dir}"
+        docker_swarm: "#{source_dir}"
     forge_modules:
         vcsrepo: puppetlabs/vcsrepo
         stdlib: puppetlabs/stdlib
