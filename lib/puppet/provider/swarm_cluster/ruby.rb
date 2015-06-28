@@ -22,8 +22,7 @@ Puppet::Type.type(:swarm_cluster).provide(:ruby) do
     strategy = (resource[:strategy])
     case 
       when cluster.match(/create/)
-        yield 'create'
-        'create' 
+        ['create']
       when cluster.match(/join/)
         ['join', "--advertise=#{interface}:2375", "#{backend}://#{address}:#{port}/#{path}"]
       when cluster.match(/manage/)      
