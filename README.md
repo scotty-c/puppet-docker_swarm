@@ -42,13 +42,13 @@ To customize the install with a third party back end:
 class {'docker_swarm':}
 
 swarm_cluster {'cluster 1':
-   ensure       => present,
-   backend      => 'consul',
-   cluster_type => 'join',
-   port         => '8500',
-   address      => '172.17.8.101',
-   path         => 'swarm'
-   } 
+  ensure       => present,
+  backend      => 'consul',
+  cluster_type => 'join',
+  port         => '8500',
+  address      => '172.17.8.101',
+  path         => 'swarm'
+  } 
 ```
 The provider allows the following types
 
@@ -72,10 +72,10 @@ To customize the install using the native swarm discovery service:
 class {'docker_swarm':}
 
 swarm_cluster {'cluster 1':
-   ensure       => present,
-   backend      => 'swarm',
-   cluster_type => 'create',
-   } 
+  ensure       => present,
+  backend      => 'swarm',
+  cluster_type => 'create',
+  } 
 ```
 
 To manage the the cluster with a third party back end:
@@ -83,14 +83,14 @@ To manage the the cluster with a third party back end:
 class {'docker_swarm':}
 
 swarm_cluster {'cluster 1':
-   ensure       => present,
-   backend      => 'consul',
-   cluster_type => 'manage',
-   port         => '8500',
-   address      => '172.17.8.101',
-   path         => 'swarm',
-   strategy     => 'spread'  
-   } 
+  ensure       => present,
+  backend      => 'consul',
+  cluster_type => 'manage',
+  port         => '8500',
+  address      => '172.17.8.101',
+  path         => 'swarm',
+  strategy     => 'spread'  
+  } 
 ```
 
 
