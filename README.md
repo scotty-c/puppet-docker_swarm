@@ -35,11 +35,11 @@ Ubuntu 14.04
 ## Usage
 For basic usage:
 ```
-include swarm
+include docker_swarm
 ```
 To customise the install:
 ```
-class {'swarm':}
+class {'docker_swarm':}
 
 swarm_cluster {'cluster 1':
    ensure       => present,

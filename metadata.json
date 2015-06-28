@@ -4,9 +4,9 @@
   "author": "scottyc",
   "license": "Apache-2.0",
   "summary": "A module for Docker Swarm",
-  "source": "https://github.com/scotty-c/puppet-swarm",
-  "project_page": "https://github.com/scotty-c/puppet-swarm",
-  "issues_url": "https://github.com/scotty-c/puppet-swarm",
+  "source": "https://github.com/scotty-c/puppet-docker_swarm",
+  "project_page": "https://github.com/scotty-c/puppet-docker_swarm",
+  "issues_url": "https://github.com/scotty-c/puppet-docker_swarm",
   "tags": ["docker", "swarm"],
   "operatingsystem_support": [
     {
