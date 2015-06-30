@@ -1,6 +1,6 @@
 # Docker Swarm
 
-[![Build Status](https://travis-ci.org/scotty-c/puppet-swarm.svg?branch=master)](https://travis-ci.org/scotty-c/puppet-swarm)
+[![Build Status](https://travis-ci.org/scotty-c/puppet-docker_swarm.svg?branch=master)](https://travis-ci.org/scotty-c/puppet-docker_swarm)
 
 #### Table of Contents
 
