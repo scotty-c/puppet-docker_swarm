@@ -88,14 +88,9 @@ swarm_cluster {'cluster 1':
   cluster_type => 'manage',
   port         => '8500',
   address      => '172.17.8.101',
-  path         => 'swarm',
-  strategy     => 'spread'  
+  path         => 'swarm', 
   } 
 ```
-
-
-````strategy```` This is the scheduling strategy. The choices are spread, binpick or random. This only needs to be applied if the node is a swarm manager.
-For more information about scheduling straties https://docs.docker.com/swarm/scheduler/strategy/
 
 ##Dependencies 
 
