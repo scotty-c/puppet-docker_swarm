@@ -104,6 +104,14 @@ This module needs :
 
 [`puppetlabs/vcsrepo`](https://github.com/puppetlabs/puppetlabs-vcsrepo)
 
+## Demo Lab
+
+If you want to test Docker Swarm I built a 4 node lab for the Sydney Puppet user group. You can find that here
+
+````
+https://github.com/scotty-c/puppet-meetup
+````
+
 ## Development
 
 Pull request welcome. Just hit me up.
