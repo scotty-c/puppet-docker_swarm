@@ -18,14 +18,15 @@ Puppet::Type.type(:swarm_cluster).provide(:ruby) do
     backend = (resource[:backend])
     address = (resource[:address])
     port = (resource[:port])  
+    advertise = (resource[:advertise])  
     path = (resource[:path])
     case 
       when cluster.match(/create/)
-        ['create']
+        [['create']]
       when cluster.match(/join/)
-        ['join', "--advertise=#{interface}:2375", "#{backend}://#{address}:#{port}/#{path}"]
+        [['join', "--advertise=#{interface}:2375", "#{backend}://#{address}:#{port}/#{path}"]]
       when cluster.match(/manage/)      
-        ['manage', '-H', "tcp://#{interface}:2376", "#{backend}://#{address}:#{port}/#{path}"]   
+        [['manage', '-H', "tcp://#{interface}:2376", "#{backend}://#{address}:#{port}/#{path}"], ['manage', '-H', ':4000', '--replication', '--advertise', "#{advertise}:4000", "#{backend}://#{address}:#{port}/#{path}"]] 
       end
    end
 
@@ -37,8 +38,10 @@ Puppet::Type.type(:swarm_cluster).provide(:ruby) do
  
    def create
      Puppet.info("Configuring Swarm Cluster")
-     p = fork {swarm *swarm_conf}
-     Process.detach(p)
+     swarm_conf.each do |conf|
+       p = fork {swarm *conf}
+       Process.detach(p)
+     end
    end
 
    def destroy

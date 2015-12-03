@@ -78,7 +78,7 @@ swarm_cluster {'cluster 1':
   } 
 ```
 
-To manage the the cluster with a third party back end:
+To manage the the cluster with a third party back end, if you have more than one master the  module will configure master replication. Port 4000 will need to be open between the masters and set the interface you would like to  advertise for replication with the ```advertise``` param:
 ```
 class {'docker_swarm':}
 
@@ -87,6 +87,7 @@ swarm_cluster {'cluster 1':
   backend      => 'consul',
   cluster_type => 'manage',
   port         => '8500',
+  advertise    => 'eth0', 
   address      => '172.17.8.101',
   path         => 'swarm', 
   } 
@@ -106,7 +107,7 @@ This module needs :
 
 ## Demo Lab
 
-If you want to test Docker Swarm I built a 4 node lab for the Sydney Puppet user group. You can find that here
+If you want to test Docker Swarm I built alab for PuppetConf 2015. You can find that here
 
 
 [`Swarm Demo Lab`](https://github.com/scotty-c/puppet-meetup)

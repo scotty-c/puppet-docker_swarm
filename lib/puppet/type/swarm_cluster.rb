@@ -30,6 +30,10 @@ Puppet::Type.newtype(:swarm_cluster) do
       desc "Should be the port of consul, etcd, mesos or zookepper"  
     end 
     
+    newparam(:advertise) do
+      desc "Address to advertise for the Swarm replication manager" 
+    end
+
     newparam(:path) do
       desc "Should be the path of the consul, etcd, mesos or zookepper KV"
     end
