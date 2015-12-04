@@ -107,7 +107,7 @@ This module needs :
 
 ## Demo Lab
 
-If you want to test Docker Swarm I built alab for PuppetConf 2015. You can find that here
+If you want to test Docker Swarm, I built a test lab for PuppetConf 2015. You can find that here
 
 
 [`Swarm Demo Lab`](https://github.com/scotty-c/puppet-meetup)
