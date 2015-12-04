@@ -6,11 +6,17 @@ class docker_swarm(
   $install_docker  = $docker_swarm::params::install_docker,
   $install_golang  = $docker_swarm::params::install_golang,
   $go_version      = $docker_swarm::params::version,
+  $go_package      = $docker_swarm::params::go_package,
   $bind            = $docker_swarm::params::bind,
   $swarmroot       = $docker_swarm::params::swarmroot,
   $base_dir        = $docker_swarm::params::base_dir,
+  $backend         = $docker_swarm::params::backend,
+  $backend_ip      = $docker_swarm::params::backend_ip,
+  $backend_port    = $docker_swarm::params::backend_port,
+  $advertise_int   = $docker_swarm::params::advertise_int,
   $swarm_dir       = $docker_swarm::params::swarm_dir,
   $swarm_version   = $docker_swarm::params::swarm_version,
+  
 
 ) inherits docker_swarm::params {
   validate_re($::osfamily, '^(Debian|RedHat)$', 'This module only works on Debian and Red Hat based systems.')
@@ -26,17 +32,31 @@ class docker_swarm(
 
   if install_docker {
     class {'docker':
-      tcp_bind       => $bind,
+      tcp_bind => $bind,
       }
     
     Class['docker'] -> Class['docker_swarm::install']
   }
   
   if install_golang {
-    class {'golang':
-      version => $go_version,
+    case $::osfamily {
+      'RedHat' : {
+        class {'golang':
+        from_source     => false,
+        package_version => $go_package,
+        }
       }
+      'Debian' :{
+        class {'golang':
+        from_source => true,
+        version     => $go_version,
+        }
+      }
+    default: { notify {'OS not supported':} }
+    }
+
     Class['golang'] -> Class['docker_swarm::install']
+  
   }
 
   class {'docker_swarm::install':}
