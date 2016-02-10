@@ -6,4 +6,5 @@ fixtures:
         stdlib: puppetlabs/stdlib
         golang: scottyc/golang
         docker: garethr/docker
+        wget: maestrodev/wget
 

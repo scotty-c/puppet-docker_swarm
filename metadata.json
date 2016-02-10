@@ -19,6 +19,7 @@
     }
    ],
   "dependencies": [
+    { "name":"maestrodev/wget","version_requirement":">= 1.7.0" },
     { "name": "puppetlabs/vcsrepo", "version_requirement": ">= 1.2.0" },
     { "name": "puppetlabs/stdlib", "version_requirement": ">= 4.1.0" },
     { "name": "scottyc/golang", "version_requirement": ">= 1.0.0" },
