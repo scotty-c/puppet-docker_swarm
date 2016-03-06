@@ -1,6 +1,6 @@
 {
   "name": "scottyc-docker_swarm",
-  "version": "0.0.8",
+  "version": "1.0.0",
   "author": "scottyc",
   "license": "Apache-2.0",
   "summary": "A module for Docker Swarm",
@@ -11,7 +11,7 @@
   "operatingsystem_support": [
     {
     "operatingsystem":"RedHat",
-    "operatingsystemrelease":[ "6.0", "7.0" ]
+    "operatingsystemrelease":[ "7.0" ]
     },
     {
     "operatingsystem": "Ubuntu",

@@ -23,8 +23,6 @@ This is the first release of the module so if there are any feature request plea
 
 The module is compatible with :
 
-RHEL 6 family
-
 RHEL 7 family
 
 Ubuntu 12.04
@@ -38,7 +36,7 @@ For basic usage:
 include docker_swarm
 ```
 To customize the install with a third party back end:
-```
+```puppet
 class {'docker_swarm':}
 
 swarm_cluster {'cluster 1':
@@ -68,7 +66,7 @@ The provider allows the following types
 
 
 To customize the install using the native swarm discovery service:
-```
+```puppet
 class {'docker_swarm':}
 
 swarm_cluster {'cluster 1':
@@ -79,7 +77,7 @@ swarm_cluster {'cluster 1':
 ```
 
 To manage the the cluster with a third party back end, if you have more than one master the  module will configure master replication. Port 4000 will need to be open between the masters and set the interface you would like to  advertise for replication with the ```advertise``` param:
-```
+```puppet
 class {'docker_swarm':}
 
 swarm_cluster {'cluster 1':
@@ -92,6 +90,33 @@ swarm_cluster {'cluster 1':
   path         => 'swarm', 
   } 
 ```
+
+The module now supports running your containers natively into your Swarm cluster. Please see the below example.
+````puppet
+
+swarm_run {'jenkins':
+   ensure  => present,
+   image   => 'jenkins',
+   ports   => ['8080:8080'],
+   require => Class['config::swarm'] 
+   }
+  
+swarm_run {'nginx':
+   ensure     => present,
+   image      => 'nginx',
+   ports      => ['80:80', '443:443'],
+   log_driver => 'syslog',
+   network    => 'swarm-private',
+   require    => Class['config::swarm'] 
+   }  
+  
+swarm_run {'redis':
+   ensure  => present,
+   image   => 'redis',
+   network => 'swarm-private',
+   require => Class['config::swarm'] 
+   } 
+````
 
 ##Dependencies 
 
