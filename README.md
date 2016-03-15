@@ -1,6 +1,6 @@
 # Docker Swarm
 
-[![Build Status](https://travis-ci.org/scotty-c/puppet-docker_swarm.svg?branch=master)](https://travis-ci.org/scotty-c/puppet-docker_swarm)
+[![Build Status](https://travis-ci.org/scotty-c/puppet-docker_swarm.svg?branch=master)](https://travis-ci.org/scotty-c/puppet-docker_swarm) [![PuppetForge](http://img.shields.io/puppetforge/v/scottyc/docker_swarm.svg)](https://forge.puppetlabs.com/scottyc/docker_swarm) [![Puppet Forge Downloads](http://img.shields.io/puppetforge/dt/scottyc/docker_swarm.svg)](https://forge.puppetlabs.com/scottyc/docker_swarm)
 
 #### Table of Contents
 
