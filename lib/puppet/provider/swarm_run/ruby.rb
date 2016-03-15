@@ -76,19 +76,26 @@ Puppet::Type.type(:swarm_run).provide(:ruby) do
   end
   
   def exists?
-    Puppet.info("checking if conatiner is running")
-      d = %x(docker -H tcp://#{interface}:2376 ps | grep #{resource[:name]} | grep -v grep)
-      ! d.length.eql? 0
-   end
+    Puppet.info("checking if conatiner #{resource[:name]} is running")
+      begin
+        args = ['-H', "tcp://#{interface}:2376", 'inspect', '-f', '{{.State.Running}}', "#{resource[:name]}"]
+        docker *args
+      rescue => e
+        return false
+      else
+        return true   
+      end 
+  end
  
    def create
-     Puppet.info("running container on swarm cluster")
+     Puppet.info("running container #{resource[:name]} on swarm cluster")
       p = fork {docker *docker_run}
       Process.detach(p)
    end
 
    def destroy
-     Puppet.info("stoping container")
-     %x(docker -H tcp://#{interface}:2376 rm -f #{resource[:name]} )
+     Puppet.info("stoping container #{resource[:name]}")
+     args = ['-H', "tcp://#{interface}:2376", 'rm', '-f', "#{resource[:name]}"]
+     docker *args
    end
  end

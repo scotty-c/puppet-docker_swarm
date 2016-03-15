@@ -6,7 +6,9 @@ Puppet::Type.type(:swarm_cluster).provide(:ruby) do
   
   mk_resource_methods
 
-  commands :swarm => "swarm"   
+  commands :swarm => "swarm"
+  commands :ps => "ps"
+  commands :pidof => "pidof"   
 
   def interface
     hostname = Socket.gethostname
@@ -31,9 +33,10 @@ Puppet::Type.type(:swarm_cluster).provide(:ruby) do
    end
 
    def exists?
-      Puppet.info("checking if swarm is running")
-       pid = `ps -ef | grep swarm | grep -v grep`   
-       ! pid.length.eql? 0
+      Puppet.info("checking if the swarm is running")
+      args = ['-ef']
+      pid = ps *args  
+      pid.match('swarm')
    end
  
    def create
@@ -45,7 +48,7 @@ Puppet::Type.type(:swarm_cluster).provide(:ruby) do
    end
 
    def destroy
-     Puppet.info("stoping swarm")
-     `pidof swarm | xargs kill -9 $1`
+     Puppet.info("stoping swarm process")
+     system "pidof swarm | xargs kill -9 $1"
    end
 end

@@ -1,6 +1,6 @@
 {
   "name": "scottyc-docker_swarm",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "scottyc",
   "license": "Apache-2.0",
   "summary": "A module for Docker Swarm",

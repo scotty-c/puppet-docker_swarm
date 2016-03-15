@@ -139,6 +139,3 @@ If you want to test Docker Swarm, I built a test lab for PuppetConf 2015. You ca
 ## Development
 
 Pull request welcome. Just hit me up.
-
-## Next Release
-Support for running swarm exec commands and Docker-compose integration
