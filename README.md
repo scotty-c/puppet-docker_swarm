@@ -100,7 +100,6 @@ The module now supports running your containers natively into your Swarm cluster
     ports      => ['9998:9998', '9999:9999/udp', '5000:5000', '5000:5000/udp'],
     env        => ['ES_HOST=elasticsearch', 'ES_PORT=9200'],
     command    => 'logstash -f /opt/logstash/conf.d/logstash.conf --debug',
-    require    => Class['config::swarm'] 
     }
 
    swarm_run {'elasticsearch':
@@ -110,9 +109,8 @@ The module now supports running your containers natively into your Swarm cluster
      volumes    => ['/etc/esdata:/usr/share/elasticsearch/data'],
      command    => 'elasticsearch -Des.network.host=0.0.0.0',
      log_driver => 'syslog',
-     log_opt    => 'syslog-address=tcp://logstash-5000.service.consul:5000',
+     log_opt    => 'syslog-address=tcp://logstash:5000',
      depends    => 'logstash',
-     require    => Class['config::swarm'] 
      }
    
    swarm_run {'kibana':
@@ -122,9 +120,8 @@ The module now supports running your containers natively into your Swarm cluster
      ports      => ['80:5601'],
      env        => ['ELASTICSEARCH_URL=http://elasticsearch:9200', 'reschedule:on-node-failure'],
      log_driver => 'syslog',
-     log_opt    => 'syslog-address=tcp://logstash-5000.service.consul:5000',
+     log_opt    => 'syslog-address=tcp://logstash:5000',
      depends    => 'logstash',
-     require    => Class['config::swarm'] 
      }
 ````
 
