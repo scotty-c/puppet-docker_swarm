@@ -12,7 +12,7 @@ Puppet::Type.type(:swarm_run).provide(:ruby) do
     hostname = Socket.gethostname
     IPSocket.getaddress(hostname) 
   end
-
+  
   def port
     ports = []  
     if (resource[:ports]).length > 0
@@ -20,20 +20,31 @@ Puppet::Type.type(:swarm_run).provide(:ruby) do
         ports << a.to_s
       end
     end
-    x = [] 
     ports.flatten.each do |p| 
       if p.to_i > 0
         p.insert(0, '--publish=')
       else
        return []
       end
-   end
- end
+    end
+  end
+  
+  def container_env
+     envs = (resource[:env])
+     envs.flatten.each do |p| 
+      if p.length == 0
+         return []
+      else
+        x = p.insert(0, '-e ')
+        x.to_s
+      end
+    end
+  end
 
- def docker_run  
+  def docker_run  
     name = (resource[:name])
     image = (resource[:image])
-    volume = (resource[:volume])
+    volume = (resource[:volumes])
     volume_driver = (resource[:volume_driver])
     volumes_from = (resource[:volumes_from])
     network = (resource[:network])
@@ -41,13 +52,18 @@ Puppet::Type.type(:swarm_run).provide(:ruby) do
     log_opt = (resource[:log_opt])
     link = (resource[:link])
     label = (resource[:label])
+    command = (resource[:command])
     ports = ''
-      port.each do | pp |
+      port.each do |pp|
       ports << pp + ' '
-     end
+    end
+    env = ''
+    container_env.each do |c| 
+      env << c + ' '
+    end
     run = ['-H', "tcp://#{interface}:2376", 'run', '-v', "#{volume}", '--volume-driver=', "#{volume_driver}",
          '--volumes-from=', "#{volumes_from}", '--link', "#{link}", '--log-driver=', "#{log_driver}", '--log-opt=', "#{log_opt}", 
-         '--label=', "#{label}", '--net=', "#{network}", ports, '-d', '--name', "#{name}", "#{image}"] 
+         '--label=', "#{label}", env, '--net=', "#{network}", ports, '-d', '--name', "#{name}", "#{image}", "#{command}",] 
 
     if volume.to_s.strip.length == 0 then run.delete("-v")
       end 
@@ -65,6 +81,8 @@ Puppet::Type.type(:swarm_run).provide(:ruby) do
       end             
     if label.to_s.strip.length == 0 then run.delete("--label=")
       end             
+    if container_env.to_s.strip.length == 0 then run.delete("-e")
+      end 
     run.reject { |item| item.nil? || item == '' } 
     str = ''
     run.each do |m|
@@ -74,9 +92,22 @@ Puppet::Type.type(:swarm_run).provide(:ruby) do
     t =  s.gsub(/\s+/, ' ')
     t.rstrip.split
   end
+   
+  def deps
+    if (resource[:depends]).empty?
+      return Puppet.info("container #{resource[:name]} has no dependencies")
+    else  
+      begin
+        args = ['-H', "tcp://#{interface}:2376", 'inspect', '-f', '{{.State.Running}}', "#{resource[:depends]}"]
+        docker *args
+      rescue => e
+        retry 
+       end
+     end
+   end 
   
   def exists?
-    Puppet.info("checking if conatiner #{resource[:name]} is running")
+    Puppet.info("checking if container #{resource[:name]} is running")
       begin
         args = ['-H', "tcp://#{interface}:2376", 'inspect', '-f', '{{.State.Running}}', "#{resource[:name]}"]
         docker *args
@@ -85,16 +116,17 @@ Puppet::Type.type(:swarm_run).provide(:ruby) do
       else
         return true   
       end 
-  end
+   end
  
    def create
      Puppet.info("running container #{resource[:name]} on swarm cluster")
-      p = fork {docker *docker_run}
-      Process.detach(p)
+       deps
+       p = fork {docker *docker_run}
+       Process.detach(p)      
    end
 
    def destroy
-     Puppet.info("stoping container #{resource[:name]}")
+     Puppet.info("stopping container #{resource[:name]}")
      args = ['-H', "tcp://#{interface}:2376", 'rm', '-f', "#{resource[:name]}"]
      docker *args
    end

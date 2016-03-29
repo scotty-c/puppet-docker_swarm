@@ -18,7 +18,7 @@ Puppet::Type.newtype(:swarm_run) do
            is.sort == @should.sort
        else
           is == @should
-          end
+        end
       end
     end
 
@@ -26,7 +26,7 @@ Puppet::Type.newtype(:swarm_run) do
       desc "Docker image to pull"
     end
     
-    newparam(:volume) do
+    newparam(:volumes) do
       desc "Bind mount a volume"
     end
     
@@ -56,5 +56,27 @@ Puppet::Type.newtype(:swarm_run) do
     
     newparam(:label) do
       desc "Set meta data on a container"
+    end
+    
+    newproperty(:env, :array_matching => :all) do
+      desc "Set the environment variables for the conatiner"
+      defaultto ''
+       def insync?(is)
+        if is.is_a?(Array) and @should.is_a?(Array)
+           is.sort == @should.sort
+       else
+          is == @should
+        end
+      end
+    end
+    
+    newparam(:depends) do
+      desc "Name of service that the current service depends on"
+      defaultto ''
+    end
+
+    newparam(:command) do
+      desc "Pass an argument to container"
+      defaultto ""
     end
 end
