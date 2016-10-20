@@ -39,7 +39,7 @@ class docker_swarm(
     Class['docker'] -> Class['docker_swarm::install']
   }
   
-  if install_golang {
+  if $install_golang {
     class {'golang':
       from_repo    => true,
       repo_version => $go_version,
