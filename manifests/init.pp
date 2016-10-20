@@ -36,7 +36,7 @@ class docker_swarm(
       extra_parameters => "--cluster-store=${backend}://${backend_ip}:${backend_port} --cluster-advertise=${advertise_int}:2376"
     }
 
-    Class['docker'] -> Class['docker_swarm::install']
+    Class['::docker'] -> Class['docker_swarm::install']
   }
   
   if $install_golang {
@@ -46,9 +46,8 @@ class docker_swarm(
     }
   }
     
-  Class['golang'] -> Class['docker_swarm::install']
+  Class['::golang::install'] -> Class['docker_swarm::install']
   
-
-  class {'docker_swarm::install':}
+  class { 'docker_swarm::install': }
 }
 
