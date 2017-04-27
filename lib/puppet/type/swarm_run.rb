@@ -58,6 +58,18 @@ Puppet::Type.newtype(:swarm_run) do
       desc "Set meta data on a container"
     end
     
+    newproperty(:extra_parameter, :array_matching => :all) do
+      desc "Set extra parameters for the container"
+      defaultto ''
+       def insync?(is)
+        if is.is_a?(Array) and @should.is_a?(Array)
+           is.sort == @should.sort
+       else
+          is == @should
+        end
+      end
+    end
+
     newproperty(:env, :array_matching => :all) do
       desc "Set the environment variables for the conatiner"
       defaultto ''
