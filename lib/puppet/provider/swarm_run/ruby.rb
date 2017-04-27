@@ -28,7 +28,19 @@ Puppet::Type.type(:swarm_run).provide(:ruby) do
       end
     end
   end
-  
+
+  def container_extra_parameter
+     extra_parameters = (resource[:extra_parameter])
+     extra_parameters.flatten.each do |p|
+      if p.length == 0
+         return []
+      else
+        x = p.insert(0, ' ')
+        x.to_s
+      end
+    end
+  end
+
   def container_env
      envs = (resource[:env])
      envs.flatten.each do |p| 
@@ -61,9 +73,13 @@ Puppet::Type.type(:swarm_run).provide(:ruby) do
     container_env.each do |c| 
       env << c + ' '
     end
+    extra_parameter = ''
+    container_extra_parameter.each do |c|
+      extra_parameter << c + ' '
+    end
     run = ['-H', "tcp://#{interface}:2376", 'run', '-v', "#{volume}", '--volume-driver=', "#{volume_driver}",
          '--volumes-from=', "#{volumes_from}", '--link', "#{link}", '--log-driver=', "#{log_driver}", '--log-opt=', "#{log_opt}", 
-         '--label=', "#{label}", env, '--net=', "#{network}", ports, '-d', '--name', "#{name}", "#{image}", "#{command}",] 
+         '--label=', "#{label}", env, extra_parameter, '--net=', "#{network}", ports, '-d', '--name', "#{name}", "#{image}", "#{command}",]
 
     if volume.to_s.strip.length == 0 then run.delete("-v")
       end 
@@ -83,6 +99,8 @@ Puppet::Type.type(:swarm_run).provide(:ruby) do
       end             
     if container_env.to_s.strip.length == 0 then run.delete("-e")
       end 
+    if container_extra_parameter.to_s.strip.length == 0 then run.delete("-e")
+      end
     run.reject { |item| item.nil? || item == '' } 
     str = ''
     run.each do |m|
