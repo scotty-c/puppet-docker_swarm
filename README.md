@@ -94,12 +94,13 @@ The module now supports running your containers natively into your Swarm cluster
 ````puppet
 
  swarm_run {'logstash':
-    ensure     => present,
-    image      => 'scottyc/logstash',
-    network    => 'swarm-private',
-    ports      => ['9998:9998', '9999:9999/udp', '5000:5000', '5000:5000/udp'],
-    env        => ['ES_HOST=elasticsearch', 'ES_PORT=9200'],
-    command    => 'logstash -f /opt/logstash/conf.d/logstash.conf --debug',
+    ensure           => present,
+    image            => 'scottyc/logstash',
+    network          => 'swarm-private',
+    ports            => ['9998:9998', '9999:9999/udp', '5000:5000', '5000:5000/udp'],
+    env              => ['ES_HOST=elasticsearch', 'ES_PORT=9200'],
+    command          => 'logstash -f /opt/logstash/conf.d/logstash.conf --debug',
+    extra_parameters => ['--restart=always'],
     }
 
    swarm_run {'elasticsearch':
