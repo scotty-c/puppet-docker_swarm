@@ -5,7 +5,7 @@ class docker_swarm(
 
   $install_docker  = $docker_swarm::params::install_docker,
   $install_golang  = $docker_swarm::params::install_golang,
-  $go_version      = $docker_swarm::params::version,
+  $go_version      = $docker_swarm::params::go_version,
   $bind            = $docker_swarm::params::bind,
   $swarmroot       = $docker_swarm::params::swarmroot,
   $base_dir        = $docker_swarm::params::base_dir,
@@ -29,26 +29,25 @@ class docker_swarm(
     }
   }
 
-  if install_docker {
+  if $install_docker {
     class {'docker':
       tcp_bind         => $bind,
       socket_bind      => 'unix:///var/run/docker.sock',
       extra_parameters => "--cluster-store=${backend}://${backend_ip}:${backend_port} --cluster-advertise=${advertise_int}:2376"
-      }
-    
-    Class['docker'] -> Class['docker_swarm::install']
+    }
+
+    Class['::docker'] -> Class['docker_swarm::install']
   }
   
-  if install_golang {
+  if $install_golang {
     class {'golang':
       from_repo    => true,
       repo_version => $go_version,
     }
   }
     
-  Class['golang'] -> Class['docker_swarm::install']
+  Class['::golang::install'] -> Class['docker_swarm::install']
   
-
-  class {'docker_swarm::install':}
+  class { 'docker_swarm::install': }
 }
 
