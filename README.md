@@ -75,7 +75,7 @@ swarm_cluster {'cluster 1':
   } 
 ```
 
-To manage the the cluster with a third party back end, if you have more than one master the  module will configure master replication. Port 4000 will need to be open between the masters and set the interface you would like to  advertise for replication with the ```advertise``` param:
+To manage the cluster with a third party back end, if you have more than one master the  module will configure master replication. Port 4000 will need to be open between the masters and set the interface you would like to  advertise for replication with the ```advertise``` param:
 ```puppet
 class {'docker_swarm':}
 
